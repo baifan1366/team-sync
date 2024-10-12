@@ -21,7 +21,12 @@ const initialState: ProjectsState = {
 };
 
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
-  const response = await fetch('/api/projects');
+  const response = await fetch('http://localhost:3001/api/projects', {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch projects');
   }
@@ -31,8 +36,9 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects', async ()
 export const updateProjectStatus = createAsyncThunk(
   'projects/updateProjectStatus',
   async ({ id, status }: { id: number; status: Project['status'] }) => {
-    const response = await fetch(`/api/projects/${id}`, {
+    const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });

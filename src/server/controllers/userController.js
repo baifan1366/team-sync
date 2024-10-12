@@ -1,28 +1,28 @@
 // server/controllers/userController.js
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-exports.getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
     res.json(users);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching users' });
+    res.status(500).json({ error: `Error fetching users: ${error.message}` });
   }
 };
 
-exports.createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const newUser = await prisma.user.create({
       data: req.body,
     });
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ error: 'Error creating user' });
+    res.status(400).json({ error: `Error creating user: ${error.message}` });
   }
 };
 
-exports.getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: parseInt(req.params.id) },
@@ -33,11 +33,11 @@ exports.getUserById = async (req, res) => {
       res.status(404).json({ error: 'User not found' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching user' });
+    res.status(500).json({ error: `Error fetching user: ${error.message}` });
   }
 };
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
     const updatedUser = await prisma.user.update({
       where: { id: parseInt(req.params.id) },
@@ -45,17 +45,17 @@ exports.updateUser = async (req, res) => {
     });
     res.json(updatedUser);
   } catch (error) {
-    res.status(400).json({ error: 'Error updating user' });
+    res.status(400).json({ error: `Error updating user: ${error.message}` });
   }
 };
 
-exports.deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     await prisma.user.delete({
       where: { id: parseInt(req.params.id) },
     });
     res.status(204).send();
   } catch (error) {
-    res.status(400).json({ error: 'Error deleting user' });
+    res.status(400).json({ error: `Error deleting user: ${error.message}` });
   }
 };

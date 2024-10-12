@@ -1,28 +1,28 @@
 // server/controllers/taskController.js
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-exports.getAllTasks = async (req, res) => {
+export const getAllTasks = async (req, res) => {  
   try {
     const tasks = await prisma.task.findMany();
     res.json(tasks);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching tasks' });
+    res.status(500).json({ error: `Error fetching tasks: ${error.message}` });
   }
 };
 
-exports.createTask = async (req, res) => {
+export const createTask = async (req, res) => {
   try {
     const newTask = await prisma.task.create({
       data: req.body,
     });
     res.status(201).json(newTask);
   } catch (error) {
-    res.status(400).json({ error: 'Error creating task' });
+    res.status(400).json({ error: `Error creating task: ${error.message}` });
   }
 };
 
-exports.getTaskById = async (req, res) => {
+export const getTaskById = async (req, res) => {
   try {
     const task = await prisma.task.findUnique({
       where: { id: parseInt(req.params.id) },
@@ -33,11 +33,11 @@ exports.getTaskById = async (req, res) => {
       res.status(404).json({ error: 'Task not found' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching task' });
+    res.status(500).json({ error: `Error fetching task: ${error.message}` });
   }
 };
 
-exports.updateTask = async (req, res) => {
+export const updateTask = async (req, res) => {
   try {
     const updatedTask = await prisma.task.update({
       where: { id: parseInt(req.params.id) },
@@ -45,17 +45,17 @@ exports.updateTask = async (req, res) => {
     });
     res.json(updatedTask);
   } catch (error) {
-    res.status(400).json({ error: 'Error updating task' });
+    res.status(400).json({ error: `Error updating task: ${error.message}` });
   }
 };
 
-exports.deleteTask = async (req, res) => {
+export const deleteTask = async (req, res) => {
   try {
     await prisma.task.delete({
       where: { id: parseInt(req.params.id) },
     });
     res.status(204).send();
   } catch (error) {
-    res.status(400).json({ error: 'Error deleting task' });
+    res.status(400).json({ error: `Error deleting task: ${error.message}` });
   }
 };

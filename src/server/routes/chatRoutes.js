@@ -1,53 +1,53 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const chatController = require('../controllers/chatController');
+import { getAllChats, createChat, getChatById, updateChat, deleteChat } from '../controllers/chatController.js';
 
 /**
- * @typedef {object} Chat
- * @property {integer} id - Chat ID
- * @property {string} content - Chat content
+ * @typedef Chat
+ * @property {integer} id.required - Chat ID
+ * @property {string} content.required - Chat content
  * @property {string} createdAt - Creation date
  * @property {string} updatedAt - Last update date
  */
 
 /**
- * @typedef {object} ChatInput
- * @property {string} content - Chat content
+ * @typedef ChatInput
+ * @property {string} content.required - Chat content
  */
 
 /**
  * Get all chats
- * @route GET /api/chats
+ * @route GET /chats
  * @group Chats - Operations about chats
  * @returns {Array.<Chat>} 200 - An array of chat objects
- * @returns {Error}  default - Unexpected error
+ * @returns {Error} default - Unexpected error
  */
-router.get('/', chatController.getAllChats);
+router.get('/', getAllChats);
 
 /**
  * Create a new chat
- * @route POST /api/chats
+ * @route POST /chats
  * @group Chats - Operations about chats
  * @param {ChatInput.model} chat.body.required - Chat object that needs to be added
  * @returns {Chat.model} 201 - Created chat
- * @returns {Error}  default - Unexpected error
+ * @returns {Error} default - Unexpected error
  */
-router.post('/', chatController.createChat);
+router.post('/', createChat);
 
 /**
  * Get a chat by ID
- * @route GET /api/chats/{id}
+ * @route GET /chats/{id}
  * @group Chats - Operations about chats
  * @param {integer} id.path.required - Chat ID
  * @returns {Chat.model} 200 - Chat object
  * @returns {Error} 404 - Chat not found
  * @returns {Error} default - Unexpected error
  */
-router.get('/:id', chatController.getChatById);
+router.get('/:id', getChatById);
 
 /**
  * Update a chat
- * @route PUT /api/chats/{id}
+ * @route PUT /chats/{id}
  * @group Chats - Operations about chats
  * @param {integer} id.path.required - Chat ID
  * @param {ChatInput.model} chat.body.required - Chat object that needs to be updated
@@ -55,17 +55,17 @@ router.get('/:id', chatController.getChatById);
  * @returns {Error} 404 - Chat not found
  * @returns {Error} default - Unexpected error
  */
-router.put('/:id', chatController.updateChat);
+router.put('/:id', updateChat);
 
 /**
  * Delete a chat
- * @route DELETE /api/chats/{id}
+ * @route DELETE /chats/{id}
  * @group Chats - Operations about chats
  * @param {integer} id.path.required - Chat ID
- * @returns {null} 204 - Chat deleted successfully
+ * @returns {object} 204 - Chat deleted successfully
  * @returns {Error} 404 - Chat not found
  * @returns {Error} default - Unexpected error
  */
-router.delete('/:id', chatController.deleteChat);
+router.delete('/:id', deleteChat);
 
-module.exports = router;
+export default router;

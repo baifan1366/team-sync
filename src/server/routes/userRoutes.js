@@ -1,56 +1,56 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const userController = require('../controllers/userController');
+import { getAllUsers, createUser, getUserById, updateUser, deleteUser } from '../controllers/userController.js';
 
 /**
- * @typedef {object} User
- * @property {integer} id - User ID
- * @property {string} username - Username
- * @property {string} email - User's email
+ * @typedef User
+ * @property {integer} id.required - User ID
+ * @property {string} username.required - Username
+ * @property {string} email.required - User's email
  * @property {string} createdAt - Creation date
  * @property {string} updatedAt - Last update date
  */
 
 /**
- * @typedef {object} UserInput
- * @property {string} username - Username
- * @property {string} email - User's email
- * @property {string} password - User's password
+ * @typedef UserInput
+ * @property {string} username.required - Username
+ * @property {string} email.required - User's email
+ * @property {string} password.required - User's password
  */
 
 /**
  * Get all users
- * @route GET /api/users
+ * @route GET /users
  * @group Users - Operations about users
  * @returns {Array.<User>} 200 - An array of user objects
  * @returns {Error} default - Unexpected error
  */
-router.get('/', userController.getAllUsers);
+router.get('/', getAllUsers);
 
 /**
  * Create a new user
- * @route POST /api/users
+ * @route POST /users
  * @group Users - Operations about users
  * @param {UserInput.model} user.body.required - User object that needs to be added
  * @returns {User.model} 201 - Created user
  * @returns {Error} default - Unexpected error
  */
-router.post('/', userController.createUser);
+router.post('/', createUser);
 
 /**
  * Get a user by ID
- * @route GET /api/users/{id}
+ * @route GET /users/{id}
  * @group Users - Operations about users
  * @param {integer} id.path.required - User ID
  * @returns {User.model} 200 - User object
  * @returns {Error} 404 - User not found
  * @returns {Error} default - Unexpected error
  */
-router.get('/:id', userController.getUserById);
+router.get('/:id', getUserById);
 
 /**
  * Update a user
- * @route PUT /api/users/{id}
+ * @route PUT /users/{id}
  * @group Users - Operations about users
  * @param {integer} id.path.required - User ID
  * @param {UserInput.model} user.body.required - User object that needs to be updated
@@ -58,17 +58,17 @@ router.get('/:id', userController.getUserById);
  * @returns {Error} 404 - User not found
  * @returns {Error} default - Unexpected error
  */
-router.put('/:id', userController.updateUser);
+router.put('/:id', updateUser);
 
 /**
  * Delete a user
- * @route DELETE /api/users/{id}
+ * @route DELETE /users/{id}
  * @group Users - Operations about users
  * @param {integer} id.path.required - User ID
- * @returns {null} 204 - User deleted successfully
+ * @returns {object} 204 - User deleted successfully
  * @returns {Error} 404 - User not found
  * @returns {Error} default - Unexpected error
  */
-router.delete('/:id', userController.deleteUser);
+router.delete('/:id', deleteUser);
 
-module.exports = router;
+export default router;

@@ -1,55 +1,55 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const projectController = require('../controllers/projectController');
+import { getAllProjects, createProject, getProjectById, updateProject, deleteProject } from '../controllers/projectController.js';
 
 /**
- * @typedef {object} Project
- * @property {integer} id - Project ID
- * @property {string} name - Project name
+ * @typedef Project
+ * @property {integer} id.required - Project ID
+ * @property {string} name.required - Project name
  * @property {string} description - Project description
  * @property {string} createdAt - Creation date
  * @property {string} updatedAt - Last update date
  */
 
 /**
- * @typedef {object} ProjectInput
- * @property {string} name - Project name
+ * @typedef ProjectInput
+ * @property {string} name.required - Project name
  * @property {string} description - Project description
  */
 
 /**
  * Get all projects
- * @route GET /api/projects
+ * @route GET /projects
  * @group Projects - Operations about projects
  * @returns {Array.<Project>} 200 - An array of project objects
  * @returns {Error} default - Unexpected error
  */
-router.get('/', projectController.getAllProjects);
+router.get('/', getAllProjects);
 
 /**
  * Create a new project
- * @route POST /api/projects
+ * @route POST /projects
  * @group Projects - Operations about projects
  * @param {ProjectInput.model} project.body.required - Project object that needs to be added
  * @returns {Project.model} 201 - Created project
  * @returns {Error} default - Unexpected error
  */
-router.post('/', projectController.createProject);
+router.post('/', createProject);
 
 /**
  * Get a project by ID
- * @route GET /api/projects/{id}
+ * @route GET /projects/{id}
  * @group Projects - Operations about projects
  * @param {integer} id.path.required - Project ID
  * @returns {Project.model} 200 - Project object
  * @returns {Error} 404 - Project not found
  * @returns {Error} default - Unexpected error
  */
-router.get('/:id', projectController.getProjectById);
+router.get('/:id', getProjectById);
 
 /**
  * Update a project
- * @route PUT /api/projects/{id}
+ * @route PUT /projects/{id}
  * @group Projects - Operations about projects
  * @param {integer} id.path.required - Project ID
  * @param {ProjectInput.model} project.body.required - Project object that needs to be updated
@@ -57,17 +57,17 @@ router.get('/:id', projectController.getProjectById);
  * @returns {Error} 404 - Project not found
  * @returns {Error} default - Unexpected error
  */
-router.put('/:id', projectController.updateProject);
+router.put('/:id', updateProject);
 
 /**
  * Delete a project
- * @route DELETE /api/projects/{id}
+ * @route DELETE /projects/{id}
  * @group Projects - Operations about projects
  * @param {integer} id.path.required - Project ID
- * @returns {null} 204 - Project deleted successfully
+ * @returns {object} 204 - Project deleted successfully
  * @returns {Error} 404 - Project not found
  * @returns {Error} default - Unexpected error
  */
-router.delete('/:id', projectController.deleteProject);
+router.delete('/:id', deleteProject);
 
-module.exports = router;
+export default router;
