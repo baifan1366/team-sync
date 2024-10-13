@@ -8,54 +8,134 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  teams     Team[]
-  tasks     Task[]
-  projects  Project[]
+  userId            Int     @id @default(autoincrement())
+  cognitoId         String  @unique
+  username          String  @unique
+  profilePictureUrl String?
+  teamId            Int?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  chatRooms         ChatRoom[]       @relation("ChatRoomMembers")
+  messages          Message[]
+  authoredTasks     Task[]           @relation("TaskAuthor")
+  assignedTasks     Task[]           @relation("TaskAssignee")
+  taskAssignments   TaskAssignment[]
+  attachments       Attachment[]
+  comments          Comment[]
+  team              Team?            @relation(fields: [teamId], references: [id])
 }
 
 model Team {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  members   User[]
-  projects  Project[]
-}
-
-model Chat {
-  id        Int      @id @default(autoincrement())
-  message   String
-  senderId  Int
-  createdAt DateTime @default(now())
-}
-
-model Task {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  status      String
-  assigneeId  Int
-  projectId   Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  assignee    User     @relation(fields: [assigneeId], references: [id])
-  project     Project  @relation(fields: [projectId], references: [id])
+  id                   Int           @id @default(autoincrement())
+  teamName             String
+  productOwnerUserId   Int?
+  projectManagerUserId Int?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  projectTeams         ProjectTeam[]
+  user                 User[]
 }
 
 model Project {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  teamId      Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  team        Team     @relation(fields: [teamId], references: [id])
-  tasks       Task[]
-  members     User[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  startDate    DateTime?
+  endDate      DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  tasks        Task[]
+  projectTeams ProjectTeam[]
+}
+
+model ProjectTeam {
+  id        Int     @id @default(autoincrement())
+  teamId    Int
+  projectId Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  team      Team    @relation(fields: [teamId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
+}
+
+model Task {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String?
+  status         String?
+  priority       String?
+  tags           String?
+  startDate      DateTime?
+  dueDate        DateTime?
+  points         Int?
+  projectId      Int
+  authorUserId   Int
+  assignedUserId Int?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  project         Project          @relation(fields: [projectId], references: [id])
+  author          User             @relation("TaskAuthor", fields: [authorUserId], references: [userId])
+  assignee        User?            @relation("TaskAssignee", fields: [assignedUserId], references: [userId])
+  taskAssignments TaskAssignment[]
+  attachments     Attachment[]
+  comments        Comment[]
+}
+
+model TaskAssignment {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  taskId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [userId])
+  task Task @relation(fields: [taskId], references: [id])
+}
+
+model Attachment {
+  id           Int     @id @default(autoincrement())
+  fileURL      String
+  fileName     String?
+  taskId       Int
+  uploadedById Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  task       Task @relation(fields: [taskId], references: [id])
+  uploadedBy User @relation(fields: [uploadedById], references: [userId])
+}
+
+model Comment {
+  id        Int    @id @default(autoincrement())
+  text      String
+  taskId    Int
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [userId])
+}
+
+model ChatRoom {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  isGroup   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+  members   User[]    @relation("ChatRoomMembers")
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  senderId   Int
+  chatRoomId Int
+  sender     User     @relation(fields: [senderId], references: [userId])
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
 }
