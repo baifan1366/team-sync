@@ -1,0 +1,24 @@
+{
+  "Header": {
+    "title": "Sinkronisasi Pasukan",
+    "searchPlaceholder": "Cari...",
+    "languageSelect": "Bahasa",
+    "english": "Bahasa Inggeris",
+    "malay": "Bahasa Melayu",
+    "chinese": "中文",
+    "toggleTheme": "Tukar tema",
+    "messages": "Mesej",
+    "notifications": "Pemberitahuan",
+    "userAvatarAlt": "Pengguna",
+    "profile": "Profil",
+    "settings": "Tetapan",
+    "logout": "Log keluar"
+  },
+  "Sidebar": {
+    "dashboard": "Papan Pemuka",
+    "teams": "Pasukan",
+    "chat": "Sembang",
+    "tasks": "Tugas",
+    "projects": "Projek"
+  }
+}

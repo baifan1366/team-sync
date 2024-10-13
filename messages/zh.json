@@ -1,0 +1,24 @@
+{
+  "Header": {
+    "title": "团队同步",
+    "searchPlaceholder": "搜索...",
+    "languageSelect": "语言",
+    "english": "英语",
+    "malay": "马来语",
+    "chinese": "中文",
+    "toggleTheme": "切换主题",
+    "messages": "消息",
+    "notifications": "通知",
+    "userAvatarAlt": "用户",
+    "profile": "个人资料",
+    "settings": "设置",
+    "logout": "退出登录"
+  },
+  "Sidebar": {
+    "dashboard": "仪表板",
+    "teams": "团队",
+    "chat": "聊天",
+    "tasks": "任务",
+    "projects": "项目"
+  }
+}

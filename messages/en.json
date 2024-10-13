@@ -1,0 +1,24 @@
+{
+  "Header": {
+    "title": "Team Sync",
+    "searchPlaceholder": "Search...",
+    "languageSelect": "Language",
+    "english": "English",
+    "malay": "Malay",
+    "chinese": "中文",
+    "toggleTheme": "Toggle theme",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "userAvatarAlt": "User",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "teams": "Teams",
+    "chat": "Chat",
+    "tasks": "Tasks",
+    "projects": "Projects"
+  }
+}
