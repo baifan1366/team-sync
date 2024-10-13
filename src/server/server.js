@@ -37,7 +37,7 @@ let options = {
   swaggerDefinition: {
     info: {
       description: 'API for a Teams-like application with team, chat, task, and project management features',
-      title: 'Teams-like Application API',
+      title: 'Teams-Sync API Docs',
       version: '1.0.0',
   },
   host: 'localhost:3001',

@@ -54,7 +54,7 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between px-6 py-4 bg-background border-b border-border">
       <div className="flex items-center">
-        <h1 className="text-2xl font-bold text-foreground mr-6">{t('title')}</h1>
+        <h1 className="text-xl font-bold text-foreground mr-4">{t('title')}</h1>
         <div className="relative">
           <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input

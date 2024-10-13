@@ -13,6 +13,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Team Sync',
   description: 'A business-oriented team collaboration platform',
+  icons: {
+    icon: '/assets/favicon.ico'
+  }
 }
 
 export function generateStaticParams() {
@@ -30,6 +33,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      {/* <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head> */}
       <body className={inter.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
