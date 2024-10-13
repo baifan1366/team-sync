@@ -6,9 +6,15 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const navItems = [
-  { icon: Home, labelKey: 'dashboard', href: '/' },
+  { icon: Home, labelKey: 'dashboard', href: '/dashboard' },
   { icon: Users, labelKey: 'teams', href: '/teams' },
   { icon: Clipboard, labelKey: 'tasks', href: '/tasks' },
   { icon: FolderKanban, labelKey: 'projects', href: '/projects' },
@@ -53,25 +59,36 @@ export default function Sidebar() {
             const isActive = pathname.startsWith(`/${locale}${item.href}`)
             return (
               <li key={item.href}>
-                <Link
-                  href={`/${locale}${item.href}`}
-                  className={`flex items-center p-3 rounded-lg text-sm transition-all duration-200 ${
-                    isActive
-                      ? 'bg-accent text-accent-foreground font-medium'
-                      : 'hover:bg-accent/50 hover:text-accent-foreground'
-                  }`}
-                >
-                  <item.icon className={`w-5 h-5 ${isCollapsed ? 'mr-0' : 'mr-3'}`} />
-                  {!isCollapsed && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      {t(item.labelKey)}
-                    </motion.span>
-                  )}
-                </Link>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={`/${locale}${item.href}`}
+                        className={`flex items-center p-3 rounded-lg text-sm transition-all duration-200 ${
+                          isActive
+                            ? 'bg-accent text-accent-foreground font-medium'
+                            : 'hover:bg-accent/50 hover:text-accent-foreground'
+                        }`}
+                      >
+                        <item.icon className={`w-5 h-5 ${isCollapsed ? 'mr-0' : 'mr-3'}`} />
+                        {!isCollapsed && (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            {t(item.labelKey)}
+                          </motion.span>
+                        )}
+                      </Link>
+                    </TooltipTrigger>
+                    {isCollapsed && (
+                      <TooltipContent side="right">
+                        <p>{t(item.labelKey)}</p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
               </li>
             )
           })}
