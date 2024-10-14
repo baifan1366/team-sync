@@ -4,7 +4,7 @@ import React, { useEffect ,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { fetchProjects, updateProjectStatus, selectProjects, selectProjectsStatus, selectProjectsError } from '../features/projects/projectSlice';
+import { fetchProjects, updateProjectStatus } from '../features/projects/projectSlice';
 import { AppDispatch, RootState } from '../app/store';
 
 interface ProjectCardProps {
